@@ -31,20 +31,18 @@ class _HomePageState extends State<HomePage> {
   int count = 0;
 
   void decrement() {
-    if(count > 0){
       setState((){
         count--;
       });
-    }
+
   }
 
   void increment() {
     print('Increment');
-    if(count < 20){
+
       setState((){
         count++;
       });
-    }
   }
 
   bool get isEmpty => count == 0;
@@ -84,8 +82,8 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                MyButton(text: 'KKKKKKKK', onPressed: decrement),
-                MyButton(text: 'SIM', onPressed: increment)
+                MyButton(text: 'Saiu', onPressed: decrement, verifyStorage: isEmpty,),
+                MyButton(text: 'Entrou', onPressed: increment, verifyStorage: isFull)
               ],
             )
           ]),
@@ -96,27 +94,29 @@ class _HomePageState extends State<HomePage> {
 class MyButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final bool verifyStorage;
 
   const MyButton({
     Key? key,
     required this.text,
     required this.onPressed,
+    required this.verifyStorage,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: onPressed,
+      onPressed: verifyStorage ? null : onPressed,
       style: TextButton.styleFrom(
-        backgroundColor: Color.fromARGB(255, 54, 160, 218),
-        foregroundColor: const Color.fromARGB(255, 67, 87, 97),
+        backgroundColor: verifyStorage ? const Color.fromARGB(0, 255, 255, 255) : Color.fromARGB(255, 54, 160, 218),
+        foregroundColor:  Color.fromARGB(255, 67, 87, 97),
         // padding: const EdgeInsets.all(32),
         fixedSize: const Size(100, 1),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
-            side: const BorderSide(color: Colors.black, width: 1)),
+            side: BorderSide(color: verifyStorage ? Color.fromARGB(0, 67, 87, 97) : Colors.black, width: 1)),
       ),
-      child: Text(text),
+      child: verifyStorage ? Text('') : Text(text),
     );
   }
 }
