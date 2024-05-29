@@ -7,6 +7,7 @@ void main() {
 }
 
 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -18,25 +19,36 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-// Stateless é usado para elementos cujo estado será fixo,
-// para elementos que podem mudar ou receber modificação, é necessário o uso do STATEFUL
-class HomePage extends StatelessWidget {
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   int count = 0;
 
   void decrement() {
-    setState((){
-      count--;
-    });
+    if(count > 0){
+      setState((){
+        count--;
+      });
+    }
   }
 
   void increment() {
     print('Increment');
-    setState((){
-      count++;
-    });
+    if(count < 20){
+      setState((){
+        count++;
+      });
+    }
   }
+
+  bool get isEmpty => count == 0;
+  bool get isFull => count == 20;
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +61,9 @@ class HomePage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Text(
-              'Pode Entrar',
-              textAlign: TextAlign.center,
-              style: TextStyle(
+            Text(
+              (isFull ? 'Está cheio' : isEmpty ? 'Está vazio' : 'Pode Entrar'),
+              style: const TextStyle(
                 fontSize: 30,
                 color: Colors.white,
                 backgroundColor: Color.fromARGB(158, 0, 0, 0),
@@ -62,7 +73,6 @@ class HomePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                // "$count",
                 count.toString(),
                 style: const TextStyle(
                   fontSize: 100,
@@ -74,70 +84,13 @@ class HomePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                MyButton(text: 'Saiu', onPressed: decrement),
-                MyButton(text: 'Entrou', onPressed: increment)
-                // buildTextButtonWithFunction('Saiu', decrement),
-                // buildTextButtonWithFunction('Saiu', decrement),
-                // TextButton(
-                //     onPressed: decrement,
-                //     style: TextButton.styleFrom(
-                //       backgroundColor: Colors.blueGrey,
-                //       foregroundColor: const Color.fromARGB(255, 67, 87, 97),
-                //       // padding: const EdgeInsets.all(32),
-                //       fixedSize: const Size(100, 1),
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //         side: const BorderSide(
-                //           color: Colors.black,
-                //           width: 1
-                //         )
-                //       ),
-
-                //     ),
-                //     child: const Text(
-                //       'Saiu',
-                //       textAlign: TextAlign.center,
-                //       style: TextStyle(
-                //           fontSize: 18,
-                //           fontWeight: FontWeight.w600,
-                //           color: Colors.white),
-                //     )),
-                // TextButton(
-                //     onPressed: increment,
-                //     child: const Text(
-                //       'entrou',
-                //       textAlign: TextAlign.center,
-                //       style: TextStyle(
-                //           fontSize: 18,
-                //           fontWeight: FontWeight.w600,
-                //           color: Colors.white),
-                //     )),
+                MyButton(text: 'KKKKKKKK', onPressed: decrement),
+                MyButton(text: 'SIM', onPressed: increment)
               ],
             )
           ]),
         ));
-
-    // Container(
-    //     color: Colors.green,
-    //     alignment: Alignment.center,
-    //     child: const Text('Hello World!!'));
-  }
-
-  //                     backgroundColor: Colors.blueGrey,
-//                     foregroundColor: const Color.fromARGB(255, 67, 87, 97),
-//                     // padding: const EdgeInsets.all(32),
-//                     fixedSize: const Size(100, 1),
-//                     shape: RoundedRectangleBorder(),
-
-//                   ),
-//                   child: const Text(
-//                     'Saiu',
-//                     textAlign: TextAlign.center,
-//                     style: TextStyle(
-//                         fontSize: 18,
-//                         fontWeight: FontWeight.w600,
-//                         color: Colors.white),
-//                   )),
+}
 }
 
 class MyButton extends StatelessWidget {
